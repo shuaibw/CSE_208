@@ -43,4 +43,8 @@ public class Kruskal {
         }
         return new MSTReturn(mst, mstCost);
     }
+
+    public static void main(String[] args) {
+        new Kruskal().solve(0);
+    }
 }
