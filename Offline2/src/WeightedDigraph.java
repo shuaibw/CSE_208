@@ -6,9 +6,8 @@ public class WeightedDigraph {
     private final ArrayList<Edge>[] adj;
     private int[] inDeg;
 
-    public WeightedDigraph(int v, int e) {
+    public WeightedDigraph(int v) {
         V = v;
-//        E = e;
         adj = (ArrayList<Edge>[]) new ArrayList[v];
         inDeg = new int[V];
         for (int i = 0; i < adj.length; i++) adj[i] = new ArrayList<>();

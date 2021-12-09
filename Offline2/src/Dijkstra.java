@@ -1,45 +1,35 @@
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 
 public class Dijkstra {
-    private class Vertex {
-        private int v;
-        private double cost;
-
-        private Vertex(int v, double cost) {
-            this.v = v;
-            this.cost = cost;
-        }
+    public Dijkstra() {
     }
 
-    private double[] dist;
-    private boolean[] visited;
-    private int[] prev;
-    private PriorityQueue<Vertex> pq;
-
-    public Dijkstra(WeightedDigraph g) {
-        dist = new double[g.V()];
-        visited = new boolean[g.V()];
-        prev = new int[g.V()];
-        pq = new PriorityQueue<>(Comparator.comparingDouble(o -> o.cost));
-    }
-
-    public int[] computeSSSP(int from, int to) {
-        clear();
-        dist[from] = 0;
-        pq.add(new Vertex(from, 0));
-        while(!pq.isEmpty()){
-            Vertex cur = pq.poll();
-
-        }
-    }
-
-    private void clear() {
-        Arrays.fill(visited, false);
-        Arrays.fill(dist, Double.MAX_VALUE);
+    public SSSPReturns solveForSSSP(WeightedDigraph g, int start, int end) {
+        IndexMinPQ<Double> pq = new IndexMinPQ<>(g.E());
+        int[] prev = new int[g.V()];
+        boolean[] visited = new boolean[g.V()];
+        double[] dist = new double[g.V()];
         Arrays.fill(prev, -1);
-        pq.clear();
+        Arrays.fill(dist, Double.MAX_VALUE);
+        dist[start] = 0;
+        prev[start] = -2;
+        pq.insert(start, 0.0);
+        while (!pq.isEmpty()) {
+            int idx = pq.minIndex();
+            if (idx == end) break;
+            double minDist = pq.minKey();
+            pq.delMin();
+            visited[idx] = true;
+            if (dist[idx] < minDist) continue;
+            for (Edge n : g.neighbors(idx)) {
+                double newDist = dist[idx] + n.weight();
+                if (visited[n.to()] || newDist >= dist[n.to()]) continue;
+                dist[n.to()] = newDist;
+                prev[n.to()] = idx;
+                if (pq.contains(n.to())) pq.decreaseKey(n.to(), newDist);
+                else pq.insert(n.to(), newDist);
+            }
+        }
+        return new SSSPReturns(start, end, prev, dist);
     }
-
 }
