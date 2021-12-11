@@ -1,10 +1,10 @@
 import java.util.Arrays;
 
 public class Dijkstra {
-    public Dijkstra() {
+    private Dijkstra() {
     }
 
-    public SSSPReturns solveForSSSP(WeightedDigraph g, int start, int end) {
+    public static SSSPReturns solveForSSSP(WeightedDigraph g, int start, int end) {
         IndexMinPQ<Double> pq = new IndexMinPQ<>(g.E());
         int[] prev = new int[g.V()];
         boolean[] visited = new boolean[g.V()];

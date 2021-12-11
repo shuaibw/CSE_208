@@ -23,6 +23,10 @@ public class SSSPReturns {
             System.out.println("No connection between start and end");
             return;
         }
+        if(dist[end]==Double.MIN_VALUE){
+            System.out.println("Cannot print shortest path. Contains a negative cycle");
+            return;
+        }
         ArrayList<Integer> path = new ArrayList<>();
         int i = end;
         while (i != -2) {
