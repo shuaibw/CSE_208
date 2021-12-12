@@ -29,7 +29,7 @@ public class BellManFord {
             for (Edge e : g.edges()) {
                 double newDist = dist[e.from()] + e.weight();
                 if (dist[e.to()] <= newDist) continue;
-                dist[e.to()] = Double.MIN_VALUE;
+                dist[e.to()] = Double.NEGATIVE_INFINITY;
                 prev[e.to()] = e.from();
                 relaxed = true;
             }

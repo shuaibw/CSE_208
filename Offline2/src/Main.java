@@ -16,8 +16,8 @@ public class Main {
         }
         int start = scanner.nextInt();
         int end = scanner.nextInt();
-        runDijkstra(g, start, end);
-//        runBellmanFord(g, start, end);
+//        runDijkstra(g, start, end);
+        runBellmanFord(g, start, end);
     }
 
     public static void runDijkstra(WeightedDigraph g, int start, int end) {
@@ -34,7 +34,7 @@ public class Main {
     public static void runBellmanFord(WeightedDigraph g, int start, int end) {
         SSSPReturns ans = BellManFord.solveForSSSP(g, start, end);
         double dist = ans.shortestPathDist();
-        if (dist == Double.MIN_VALUE) {
+        if (dist == Double.NEGATIVE_INFINITY) {
             System.out.println("The graph contains a negative cycle");
         } else {
             System.out.println("The graph does not contain a negative cycle");
