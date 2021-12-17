@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class SSSPReturns {
     private int[] prev;
@@ -23,9 +24,14 @@ public class SSSPReturns {
             System.out.println("No connection between start and end");
             return;
         }
-        if(dist[end]==Double.MIN_VALUE){
-            System.out.println("Cannot print shortest path. Contains a negative cycle");
-            return;
+        for (double v : dist) {
+            if (v == Double.NEGATIVE_INFINITY) {
+                System.out.println("Cannot print shortest path. Contains an anomaly, but there might exist a path to the target without encountering an anomaly. Do you want to force print the path?");
+                Scanner scanner=new Scanner(System.in);
+                String inp = scanner.nextLine();
+                if(inp.equalsIgnoreCase("yes")) break;
+                return;
+            }
         }
         ArrayList<Integer> path = new ArrayList<>();
         int i = end;
