@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class BinomialHeap {
     private class Node {
@@ -14,11 +16,14 @@ public class BinomialHeap {
     }
 
     private Node head;
+    private HashMap<Integer, Node> map;
 
     public BinomialHeap() {
+        map = new HashMap<>();
     }
 
-    public int findMax() { // ceil(lgn) + 1
+    public int findMax() throws Exception { // ceil(lgn) + 1
+        if (isEmpty()) throw new Exception("Cannot find max: empty heap");
         Node cur = head;
         int max = head.key;
         while (cur != null) {
@@ -29,37 +34,31 @@ public class BinomialHeap {
     }
 
     public int extractMax() throws Exception {
-        if (head == null) throw new Exception("Cannot extract max: empty heap");
-        int max = Integer.MIN_VALUE;
-        Node maxNode = null;
-        Node cur = head;
-        while (cur != null) {
-            if (cur.key <= max) continue;
-            max = cur.key;
-            maxNode = cur;
-            cur = cur.sibling;
-        }
-        Node prev = null;
-        cur = head;
-        while (cur != maxNode) {
-            prev = cur;
-            cur = cur.sibling;
-        }
-        if(prev==null) head=maxNode.sibling;
-        else prev.sibling = maxNode.sibling;
+        if (isEmpty()) throw new Exception("Cannot extract max: empty heap");
+        Node max = splitMax();
+        if (max.child == null) return max.key;
         BinomialHeap h = new BinomialHeap();
-        Node child = maxNode.child;
-        while(child.sibling!=null){
-            child.parent=null;
-            Node temp=child.sibling;
-            child.sibling=child;
-
+        Node cur = max.child;
+        Node prev = null;
+        Node next = cur.sibling;
+        max.child = null;
+        while (next != null) {
+            cur.sibling = prev;
+            prev = cur;
+            cur = next;
+            next = next.sibling;
         }
+        cur.sibling = prev;
+        h.head = cur;
+        this.head = union(this, h).head;
+        map.remove(max.key);
+        return max.key;
     }
 
     public void insert(int key) {
         BinomialHeap h = new BinomialHeap();
         h.head = new Node(key);
+        map.put(key, h.head);
         this.head = union(this, h).head;
     }
 
@@ -98,6 +97,82 @@ public class BinomialHeap {
         z.degree++;
     }
 
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void increaseKey(int prevKey, int newKey) {
+        Node cur = map.get(prevKey);
+        cur.key = newKey;
+        bubbleUp(cur);
+    }
+
+    public void print() {
+        Node cur = head;
+        while (cur != null) {
+            printTree(bfsRoot(cur));
+            cur = cur.sibling;
+        }
+    }
+
+    private void printTree(ArrayList<Integer> bfs) {
+        int len = bfs.size();
+    }
+
+    private int NcR(int n, int r) {
+        int num = 1;
+        int den = 1;
+        int temp = r;
+        while (temp-- != 0) num *= (n--);
+        temp=r;
+        while (temp-- != 0) den *= r--;
+        return num / den;
+    }
+
+    private ArrayList<Integer> bfsRoot(Node root) {
+        LinkedList<Node> q = new LinkedList<>();
+        q.addLast(root);
+        ArrayList<Integer> bfs = new ArrayList<>();
+        while (!q.isEmpty()) {
+            Node cur = q.removeFirst();
+            bfs.add(cur.key);
+            System.out.print(cur.key+" ");
+            Node child = cur.child;
+            while (child != null) {
+                q.addLast(child);
+                child = child.sibling;
+            }
+        }
+        return bfs;
+    }
+
+    private void bubbleUp(Node cur) {
+        Node parent = cur.parent;
+        while (parent != null && parent.key < cur.key) {
+            int temp = parent.key;
+            parent.key = cur.key;
+            cur.key = temp;
+            cur = parent;
+            parent = cur.parent;
+        }
+    }
+
+    private Node splitMax() {
+        Node maxNode = head;
+        Node cur = head;
+        Node prev = null;
+        while (cur.sibling != null) {
+            if (cur.sibling.key > maxNode.key) {
+                prev = cur;
+                maxNode = cur.sibling;
+            }
+            cur = cur.sibling;
+        }
+        if (prev == null) head = maxNode.sibling;
+        else prev.sibling = maxNode.sibling;
+        return maxNode;
+    }
+
     private Node merge(Node h1, Node h2) {
         if (h1 == null && h2 == null) return null;
         if (h1 == null) return h2;
@@ -125,7 +200,17 @@ public class BinomialHeap {
         return newHead;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        BinomialHeap h = new BinomialHeap();
+        h.insert(7);
+        h.insert(12);
+        h.insert(19);
+        h.insert(5);
+        h.insert(16);
+        h.insert(6);
+        h.increaseKey(7, 27);
+//        System.out.println(h.findMax());
+        h.print();
 
     }
 }
