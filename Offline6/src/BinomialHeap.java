@@ -1,6 +1,6 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class BinomialHeap {
     private class Node {
@@ -16,7 +16,7 @@ public class BinomialHeap {
     }
 
     private Node head;
-    private HashMap<Integer, Node> map;
+    private final HashMap<Integer, Node> map;
 
     public BinomialHeap() {
         map = new HashMap<>();
@@ -55,7 +55,8 @@ public class BinomialHeap {
         return max.key;
     }
 
-    public void insert(int key) {
+    public void insert(int key) throws Exception {
+        if (map.containsKey(key)) throw new Exception("Cannot insert duplicate key");
         BinomialHeap h = new BinomialHeap();
         h.head = new Node(key);
         map.put(key, h.head);
@@ -109,41 +110,32 @@ public class BinomialHeap {
 
     public void print() {
         Node cur = head;
+        int treeNum = 1;
         while (cur != null) {
-            printTree(bfsRoot(cur));
+            System.out.printf("Binomial Tree, B%d%n", treeNum++);
+            bfsRoot(cur);
             cur = cur.sibling;
         }
     }
 
-    private void printTree(ArrayList<Integer> bfs) {
-        int len = bfs.size();
-    }
-
-    private int NcR(int n, int r) {
-        int num = 1;
-        int den = 1;
-        int temp = r;
-        while (temp-- != 0) num *= (n--);
-        temp=r;
-        while (temp-- != 0) den *= r--;
-        return num / den;
-    }
-
-    private ArrayList<Integer> bfsRoot(Node root) {
+    private void bfsRoot(Node root) {
         LinkedList<Node> q = new LinkedList<>();
         q.addLast(root);
-        ArrayList<Integer> bfs = new ArrayList<>();
+        int lvlID = 0;
         while (!q.isEmpty()) {
-            Node cur = q.removeFirst();
-            bfs.add(cur.key);
-            System.out.print(cur.key+" ");
-            Node child = cur.child;
-            while (child != null) {
-                q.addLast(child);
-                child = child.sibling;
+            int lvlSize = q.size();
+            System.out.printf("Level %d: ", lvlID++);
+            while (lvlSize-- != 0) {
+                Node cur = q.removeFirst();
+                System.out.print(cur.key + " ");
+                Node child = cur.child;
+                while (child != null) {
+                    q.addLast(child);
+                    child = child.sibling;
+                }
             }
+            System.out.println();
         }
-        return bfs;
     }
 
     private void bubbleUp(Node cur) {
@@ -201,17 +193,12 @@ public class BinomialHeap {
     }
 
     public static void main(String[] args) throws Exception {
-        BinomialHeap h = new BinomialHeap();
-        h.insert(7);
-        h.insert(12);
-        h.insert(19);
-        h.insert(5);
-        h.insert(16);
-        h.insert(6);
-        h.increaseKey(7, 27);
-//        System.out.println(h.findMax());
-        h.print();
-
+        BinomialHeap h1 = new BinomialHeap();
+        Random random = new Random(123);
+        for (int i = 0; i < 100; i++) {
+            h1.insert(random.nextInt(100));
+        }
+        h1.print();
     }
 }
 
