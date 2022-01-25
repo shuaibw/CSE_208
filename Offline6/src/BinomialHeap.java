@@ -113,9 +113,8 @@ public class BinomialHeap {
 
     public void print() {
         Node cur = head;
-        int treeNum = 1;
         while (cur != null) {
-            System.out.printf("Binomial Tree, B%d%n", treeNum++);
+            System.out.printf("Binomial Tree, B%d%n", cur.degree);
             bfsRoot(cur);
             cur = cur.sibling;
         }
