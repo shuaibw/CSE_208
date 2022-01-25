@@ -36,7 +36,10 @@ public class BinomialHeap {
     public int extractMax() throws Exception {
         if (isEmpty()) throw new Exception("Cannot extract max: empty heap");
         Node max = splitMax();
-        if (max.child == null) return max.key;
+        if (max.child == null) {
+            map.remove(max.key);
+            return max.key;
+        }
         BinomialHeap h = new BinomialHeap();
         Node cur = max.child;
         Node prev = null;
