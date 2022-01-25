@@ -2,14 +2,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try{
-            simulate();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        simulate();
     }
 
-    private static void simulate() throws Exception {
+    private static void simulate() {
         BinomialHeap heap = new BinomialHeap();
         Scanner scanner = new Scanner(System.in);
         String line;
@@ -29,16 +25,17 @@ public class Main {
                 case "INC":
                     int oldKey = Integer.parseInt(data[1]);
                     int newKey = Integer.parseInt(data[2]);
-                    heap.increaseKey(oldKey, newKey);
-                    System.out.printf("Increased %d. The updated value is %d.%n", oldKey, newKey);
+                    boolean ok = heap.increaseKey(oldKey, newKey);
+                    if (ok) System.out.printf("Increased %d. The updated value is %d.%n", oldKey, newKey);
+                    else System.out.println("Cannot increase key: either non-existent or duplicate");
                     break;
                 case "FIN":
                     int max = heap.findMax();
-                    System.out.printf("FindMax returned %d%n", max);
+                    System.out.println(max != Integer.MIN_VALUE ? String.format("FindMax returned %d", max) : "Cannot find max from empty tree");
                     break;
                 case "EXT":
                     int ext = heap.extractMax();
-                    System.out.printf("ExtractMax returned %d%n", ext);
+                    System.out.println(ext != Integer.MIN_VALUE ? String.format("ExtractMax returned %d", ext) : "Cannot extract from empty heap");
             }
         }
     }
