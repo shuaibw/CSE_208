@@ -1,9 +1,10 @@
 # CSE_208
 ## Data Structures and Algorithms Part II
-This repository contains all the assignments and lab assesments for Level-2, Term-2. All the projects were created using IntelliJ IDEA. You can directly open the folders in IntelliJ IDEA, or copy the source codes from **Offline[num]/src** and use those in your favorite IDE.
----
+
+This repository contains all the assignments and lab assesments for Level-2, Term-2 of CSE, BUET. All the projects were created using IntelliJ IDEA. You can directly open the folders in IntelliJ IDEA, or copy the source codes from **Offline[num]/src** and use those in your favorite IDE.
+___
 All informations are contained in the **starter** directory. Please consult it before opening any of the above projects (labelled **Offline[num]**) in your IDE.
----
+___
 Offline topics:
 - Offline1: Minimum Spanning Tree
 - Offline2: Single Source Shortest Paths
