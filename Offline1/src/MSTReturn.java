@@ -1,3 +1,4 @@
+//Helper method for returning computed MST edges and cost
 public class MSTReturn {
     Edge[] mstEdges;
     double mstCost;

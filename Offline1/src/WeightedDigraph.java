@@ -4,7 +4,7 @@ public class WeightedDigraph {
     private final int V;
     private int E;
     private final ArrayList<Edge>[] adj;
-    private int[] inDeg;
+    private final int[] inDeg; //tracks in-degree of each vertex
 
     public WeightedDigraph(int v, int e) {
         V = v;

@@ -17,24 +17,24 @@ public class Prim {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        int m = scanner.nextInt();
-        int n = scanner.nextInt();
+        int m = scanner.nextInt(); //vertices
+        int n = scanner.nextInt(); //edges
         g = new WeightedDigraph(m, n);
-        visited = new boolean[m];
+        visited = new boolean[m]; // class-scoped, needs to retain the visited node markers between method calls
         for (int i = 0; i < n; i++) {
-            int u, v;
-            double w;
+            int u, v; //edge endpoints
+            double w; //weight
             u = scanner.nextInt();
             v = scanner.nextInt();
             w = scanner.nextDouble();
             g.addEdge(new Edge(u, v, w));
-            g.addEdge(new Edge(v, u, w));
+            g.addEdge(new Edge(v, u, w));//undirected (bi-directional) edges
         }
-        return primsMstEdges(start);
+        return primsMstEdges(start); //compute and return MST edges and cost
     }
 
     private MSTReturn primsMstEdges(int start) {
-        int expectedEdges = g.V() - 1;
+        int expectedEdges = g.V() - 1; //MST will complete when there are exactly V-1 edges
         int currentEdges = 0, mstCost = 0;
         Edge[] mstEdges = new Edge[expectedEdges];
         ipq = new IndexMinPQ<>(g.V());
@@ -50,6 +50,8 @@ public class Prim {
         return new MSTReturn(mstEdges, mstCost);
     }
 
+    //insert each unvisited edge endpoints to ipq
+    //if ipq already contains the edge endpoint, update with a lower weighted edge having the same endpoint
     private void relaxNeighbors(int s) {
         visited[s] = true;
         ArrayList<Edge> neighbors = g.neighbors(s);
