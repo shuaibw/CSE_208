@@ -18,7 +18,7 @@ public class BinarySearchTree<Item extends Comparable<Item>> {
     public BinarySearchTree() {
     }
 
-    private void update(Node n) {
+    private void updateHeight(Node n) {
         if (n.left == null && n.right == null) {
             n.height = 0;
             n.diff = 0;
@@ -34,8 +34,8 @@ public class BinarySearchTree<Item extends Comparable<Item>> {
         Node y = x.left;
         x.left = y.right;
         y.right = x;
-        update(x);
-        update(y);
+        updateHeight(x);
+        updateHeight(y);
         return y;
     }
 
@@ -43,8 +43,8 @@ public class BinarySearchTree<Item extends Comparable<Item>> {
         Node y = x.right;
         x.right = y.left;
         y.left = x;
-        update(x);
-        update(y);
+        updateHeight(x);
+        updateHeight(y);
         return y;
     }
 
@@ -107,7 +107,7 @@ public class BinarySearchTree<Item extends Comparable<Item>> {
         int cmp = t.compareTo(cur.item);
         if (cmp < 0) cur.left = insert(cur.left, t);
         else cur.right = insert(cur.right, t);
-        update(cur);
+        updateHeight(cur);
         return reBalance(cur);
     }
 
@@ -142,7 +142,7 @@ public class BinarySearchTree<Item extends Comparable<Item>> {
             cur.right = delMin(temp.right); // delete successor
             cur.left = temp.left;
         }
-        update(cur);
+        updateHeight(cur);
         return reBalance(cur);
     }
 

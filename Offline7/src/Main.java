@@ -6,7 +6,7 @@ public class Main {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
         Scanner scanner;
         try {
-            scanner = new Scanner(new FileInputStream("src/input.txt"));
+            scanner = new Scanner(new FileInputStream("src/write.txt"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return;

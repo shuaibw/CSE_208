@@ -10,10 +10,10 @@ public class Generator {
         HashMap<Integer, Integer> insertedMap = new HashMap<>();
         Random random = new Random(1805010);
         String[] cmdList = {"I", "D"};
-        int numberOfNodes = 100;
+        int numberOfNodes = 50;
         while (numberOfNodes != 0) {
             String cmd = cmdList[random.nextInt(2)];
-            int node = -500 + random.nextInt(1000);
+            int node = -25 + random.nextInt(50);
             if (cmd.equals("D")) {
                 if (!insertedMap.containsKey(node)) continue;
                 insertedMap.remove(node);
